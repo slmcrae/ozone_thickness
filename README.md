@@ -9,7 +9,7 @@ The results were explored to determine which model was the best fit for the data
 
 <a href="https://htmlpreview.github.io/?https://github.com/slmcrae/ozone_thickness/blob/master/ozone_thickness_time_series.html" target="_blank">Report (HTML version)</a><br>
 <a href="https://github.com/slmcrae/ozone_thickness/blob/master/ozone_thickness_time_series.Rmd" target="_blank">Report (R Markdown version)</a><br>
-<a href="https://github.com/slmcrae/ozone_thickness/blob/master/ozone.csv" target="_blank">Dataset: Ozone thickness measured in Dobsons data</a><br>
+<a href="https://github.com/slmcrae/ozone_thickness/blob/master/ozone.csv" target="_blank">Dataset: Ozone thickness measured in Dobson units</a><br>
 
 ### Software Credit
 HTML version of report rendered in browser using Github & BitBucket HTML Preview.<br>
