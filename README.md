@@ -17,7 +17,7 @@ HTML version of report rendered in browser using Github & BitBucket HTML Preview
 Created by Jerzy Glowacki 2019
 <br>
 
-### Photo Credit (Github pages website)
+_**Photo**_ _**Credit**_ _**(Github pages website)**_<br>
 Cloud photo: https://public.wmo.int/en/media/press-release/world-ozone-day-commemorates-35-years-of-successful-ozone-layer-protection/<br>
 <br>
 <br>
