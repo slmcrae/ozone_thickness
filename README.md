@@ -18,7 +18,7 @@ Created by Jerzy Glowacki 2019
 <br>
 
 _**Photo**_ _**Credit**_ _**(Github pages website)**_<br>
-Cloud photo: https://public.wmo.int/en/media/press-release/world-ozone-day-commemorates-35-years-of-successful-ozone-layer-protection/<br>
+Eath from space photo: https://public.wmo.int/en/media/press-release/world-ozone-day-commemorates-35-years-of-successful-ozone-layer-protection/<br>
 <br>
 <br>
 
