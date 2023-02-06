@@ -2,25 +2,32 @@
 title: "Changes in Ozone Thickness (1927 - 2016)"
 author: "Sherri McRae"
 date: "2023-01-27"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 ## Introduction
 Measurements of ozone thickness taken yearly from 1927 to 2016 were analyzed to determine an appropriate trend model. A trend is defined as a change in mean over time.  The trend models assessed were linear and quadratic regressions. The dataset contains 90 data points measured in Dobson Units.
 
 
-```{r, echo = FALSE}
+```{r, include=FALSE}
 library(TSA)
 
-ozone <- read.csv("C:/Users/SMcRae/udacity-git-course/masters_projects/ozone_thickness_time_series/ozone.csv", header=FALSE)
+ozone <- read.csv("ozone.csv", header=FALSE)
 ozone_v <- as.vector(unlist(ozone))
 ozone_ts <- ts(ozone_v, start=1927, end=2016) # Convert to the TS object
+```
+
+```{r, echo = FALSE}
 plot(ozone_ts,type='o',ylab='Thickness (Dobson Units)',xlab='Year', main="Ozone Thickness: Change over Time")
 ```
+
 The data appears to exhibit a trend of decreasing ozone thickness over time. There is no seasonality as the data points represent yearly measurements.  There does not appear to be any cyclic pattern, although autoregressive behaviour is apparent as successive data points are often close to previous point.
 
 ## Linear Regression Model:
 In accordance with the principle of parsimony, the first model assessed was the simplest: the linear regression model. The linear regression trend line appears in red.
+
 ```{r, echo=FALSE}
 model1 = lm(ozone_ts~time(ozone_ts)) # label the linear trend model as model1
 plot(ozone_ts,type='o',ylab='Dobson Units', xlab='Year', main="Ozone Thickness: Linear Model
@@ -30,6 +37,7 @@ abline(model1, col='red', lwd=3)
 
 
 ```
+
 ### Summary of Linear Model
 
 ```{r, echo=FALSE}
@@ -48,6 +56,7 @@ res.model1 = rstudent(model1)
 plot(y = res.model1, x = as.vector(time(ozone_ts)),xlab = 'Year', ylab='Standardized Residuals',type='o', main="Residuals for Linear Regression Model")
 abline(h=0)
 ```
+
 The residuals do not appear entirely random.  There is clear autoregressive behaviour; clusters of two and three successive points.  Also, there seems to be more points below the zero line at either end of the graph, creating the hint of a curve. These patterns indicate that a trend component of the data has not been removed. 
 
 The Shapiro-Wilk test is often used to determine if a distribution is normal. The null hypothesis of this test is that the sample is normally distributed.
@@ -55,6 +64,7 @@ The Shapiro-Wilk test is often used to determine if a distribution is normal. Th
 ```{r, echo=FALSE}
 shapiro.test(res.model1)# not significant, suggest normality
 ```
+
 As the p-value is 0.54, much greater than 0.05, the test fails to reject the null hypothesis. According to this test, the residuals of the linear regression model are normally distributed. Further analysis confirms that although the residuals approximate a normal distribution, they do not appear entirely random.
 
 
@@ -75,7 +85,7 @@ The QQ plot shows some departure from normality at either end of the reference l
 Both the ACF and the PACF plots show correlation values higher than the confidence intervals. A completely random stochastic component would not show correlation at any lag. The residuals appear to contain more than just a stochastic component.
 
 
-###Predictions Using the Linear Regression Model
+### Predictions Using the Linear Regression Model
 
 ```{r, echo=FALSE}
 t =  time(ozone_ts)
@@ -94,6 +104,7 @@ lines(ts(as.vector(forecasts[,3]), start=2017), col='blue', type='l')
 legend("bottomleft", lty=1, pch=1, cex=0.55, col=c("black", "blue","red"), text.width = 18,
        c("Data","95% Confidence Interval","Forecasts"))
 ```
+
 The forecast using the linear regression model appears higher than might be expected, given the values of the preceeding data points.  As there was an apparent trend observed in the residuals of this model, an analysis of the quadratic regresson model may produce more satisfying forecast values.
 
 ## Quadratic Regression Model:
@@ -107,6 +118,7 @@ plot(ozone_ts,type='o',ylab='Dobson Units', xlab="Year", main="Ozone Thickness: 
 lines(smooth.spline(t, predict(model2)), col="red", lwd=3)
 
 ```
+
 ### Summary of Quadratic Model
 
 ```{r, echo=FALSE}
@@ -133,6 +145,7 @@ The Shapiro-Wilk normality test results:
 ```{r, echo=FALSE}
 shapiro.test(res.model2)# not significant, suggest normality
 ```
+
 The p-value is not significant so the null hypothesis is not rejected.  The residuals behave as normally distributed data.
 
 ```{r, echo=FALSE}
@@ -142,11 +155,13 @@ qqline(res.model2, col=2, lwd=1, lty=2)#departure from reference line suggests a
 acf(res.model2, main="ACF of Standardized Residuals for Quadratic Model")
 pacf(res.model2, main = "PACF of Standarized Residuals for Quadratic Model")
 ```
+
 The QQ plot shows less departure from the reference line compared with the linear regresson model. 
 
 The ACF and PACF plots reveal that residuals do not appear strictly random. There appears to be correlation with lags 1, 3, and 4 in the ACF plot and correlation with lags 1, 2, and 3 in the PACF plot.
 
 ### Predictions of the Quadratic Regression Model
+
 Predicting the next five data points using the quadratic model:
 ```{r, echo=FALSE}
 t = time(ozone_ts)
@@ -164,6 +179,7 @@ lines(ts(as.vector(forecasts[,3]), start=2017), col='blue', type='l')
 legend("bottomleft", lty=1, pch=1, cex=0.55, col=c("black", "blue","red"), text.width = 18,
        c("Data","95% Confidence Interval","Forecasts"))
 ```
+
 Visually, the predictions using the quadratic model appear to capture both the mean and variation of adjacent data points as well as the general downward trend more effectively than that of the linear model.
 
 
